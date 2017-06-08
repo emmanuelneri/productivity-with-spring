@@ -1,0 +1,12 @@
+*.class
+*.jar
+*.war
+*.ear
+
+/target
+
+*.iml
+.idea/*
+.idea/codeStyleSettings.xml
+.idea/encodings.xml
+.idea/vcs.xml
