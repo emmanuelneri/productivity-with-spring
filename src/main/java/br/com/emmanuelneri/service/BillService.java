@@ -12,6 +12,7 @@ public class BillService {
     private BillRepository billRepository;
 
     public Bill save(Bill bill) {
+        bill.setBillInItems();
         return billRepository.save(bill);
     }
 
