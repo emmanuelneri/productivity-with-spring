@@ -1,5 +1,6 @@
 package br.com.emmanuelneri.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Getter @Setter
+@Builder
 public class Customer {
 
     @Id

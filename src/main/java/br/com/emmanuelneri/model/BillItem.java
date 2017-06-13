@@ -1,5 +1,6 @@
 package br.com.emmanuelneri.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 @Table(name = "bill_item")
 @Getter @Setter
 @Builder
+@AllArgsConstructor
 public class BillItem {
 
     @Id
@@ -64,5 +66,8 @@ public class BillItem {
     @NotNull
     @Enumerated(EnumType.STRING)
     private ItemType type;
+
+    protected BillItem() {
+    }
 
 }
