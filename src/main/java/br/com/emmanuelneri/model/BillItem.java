@@ -1,7 +1,9 @@
 package br.com.emmanuelneri.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
@@ -19,10 +21,12 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "bill_item")
 @Getter @Setter
+@Builder
 public class BillItem {
 
     @Id
@@ -34,6 +38,14 @@ public class BillItem {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "bill_id")
     private Bill bill;
+
+    @NotNull
+    @Column(name = "date_time")
+    private LocalDateTime dataTime;
+
+    @NotBlank
+    @Size(max = 200)
+    private String description;
 
     @NotEmpty
     @Size(max = 20)

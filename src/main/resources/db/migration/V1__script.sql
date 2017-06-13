@@ -23,6 +23,8 @@ CREATE TABLE bill (
 CREATE TABLE bill_item (
  id bigserial PRIMARY KEY,
  bill_id BIGINT NOT NULL,
+ date_time TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+ description VARCHAR(200) NOT NULL,
  origin_number VARCHAR(20) NOT NULL,
  destination_number VARCHAR(20) NOT NULL,
  duration BIGINT,
