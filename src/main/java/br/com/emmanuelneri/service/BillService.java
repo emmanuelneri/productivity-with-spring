@@ -5,6 +5,8 @@ import br.com.emmanuelneri.repository.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BillService {
 
@@ -14,6 +16,10 @@ public class BillService {
     public Bill save(Bill bill) {
         bill.setBillInItems();
         return billRepository.save(bill);
+    }
+
+    public List<Bill> findAll() {
+        return billRepository.findAll();
     }
 
 }
