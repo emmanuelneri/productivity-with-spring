@@ -57,6 +57,7 @@ public class Bill {
 
     @NotNull
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bill_id")
     private List<BillItem> items = new ArrayList<>();
 
     @NotNull
