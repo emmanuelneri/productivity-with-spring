@@ -13,7 +13,7 @@ CREATE TABLE bill (
  customer_id BIGINT NOT NULL,
  carrier_id BIGINT NOT NULL,
  identifier VARCHAR(50) NOT NULL,
- year_month INTEGER NOT NULL,
+ year_month VARCHAR(7) NOT NULL,
  total NUMERIC(19, 2) NOT NULL,
  CONSTRAINT bill_uk UNIQUE (customer_id, identifier, year_month),
  CONSTRAINT bill_customer_id_fk FOREIGN KEY (customer_id) REFERENCES customer(id),
