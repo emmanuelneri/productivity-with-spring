@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -168,6 +169,112 @@ public class BillServiceTest {
                         hasProperty("bill", is(bill)),
                         hasProperty("description", is("Roaming Call")))
         ));
+    }
+
+    @Test
+    public void findPaged() {
+        final List<BillItem> itemsCurrentMonth = new ArrayList<>();
+        itemsCurrentMonth.add(BillItem.builder()
+                .dataTime(LocalDateTime.now())
+                .originNumber("4499898484")
+                .destinationNumber("4499898400")
+                .duration(693L)
+                .description("Local call")
+                .type(ItemType.CALL)
+                .value(BigDecimal.valueOf(169))
+                .build());
+
+        final Bill billCurrentMonth = Bill.builder()
+                .carrier(carrier)
+                .customer(customer)
+                .identifier("1423")
+                .yearMonth(YearMonth.now())
+                .items(itemsCurrentMonth)
+                .total(BigDecimal.valueOf(169))
+                .build();
+
+        billService.save(billCurrentMonth);
+
+        final List<BillItem> itemsLastMonth = new ArrayList<>();
+        itemsLastMonth.add(BillItem.builder()
+                .dataTime(LocalDateTime.now())
+                .originNumber("4499898484")
+                .destinationNumber("4499898488")
+                .duration(800L)
+                .description("Local call")
+                .type(ItemType.CALL)
+                .value(BigDecimal.valueOf(256))
+                .build());
+
+        final Bill billLastMonth = Bill.builder()
+                .carrier(carrier)
+                .customer(customer)
+                .identifier("87842")
+                .yearMonth(YearMonth.now().minusMonths(1))
+                .items(itemsLastMonth)
+                .total(BigDecimal.valueOf(256))
+                .build();
+
+        billService.save(billLastMonth);
+
+        final Page<Bill> billPaged = billService.findPaginable(1, 1);
+        Assert.assertEquals(2, billPaged.getTotalElements());
+        Assert.assertEquals(2, billPaged.getTotalPages());
+
+        Assert.assertThat(billPaged.getContent(), contains(
+                allOf(hasProperty("identifier", is("1423")))
+        ));
+    }
+
+    @Test
+    public void findByUk() {
+        final List<BillItem> itemsCurrentMonth = new ArrayList<>();
+        itemsCurrentMonth.add(BillItem.builder()
+                .dataTime(LocalDateTime.now())
+                .originNumber("4499898484")
+                .destinationNumber("4499898400")
+                .duration(100L)
+                .description("Local call")
+                .type(ItemType.CALL)
+                .value(BigDecimal.valueOf(1))
+                .build());
+
+        final Bill billCurrentMonth = Bill.builder()
+                .carrier(carrier)
+                .customer(customer)
+                .identifier("123")
+                .yearMonth(YearMonth.now())
+                .items(itemsCurrentMonth)
+                .total(BigDecimal.valueOf(1))
+                .build();
+
+        billService.save(billCurrentMonth);
+
+        final List<BillItem> itemsLastMonth = new ArrayList<>();
+        itemsLastMonth.add(BillItem.builder()
+                .dataTime(LocalDateTime.now())
+                .originNumber("4499898484")
+                .destinationNumber("4499898400")
+                .duration(800L)
+                .description("Local call")
+                .type(ItemType.CALL)
+                .value(BigDecimal.valueOf(256))
+                .build());
+
+        final Bill billLastMonth = Bill.builder()
+                .carrier(carrier)
+                .customer(customer)
+                .identifier("123")
+                .yearMonth(YearMonth.now().minusMonths(1))
+                .items(itemsLastMonth)
+                .total(BigDecimal.valueOf(256))
+                .build();
+
+        billService.save(billLastMonth);
+
+        final Bill bill = billService.findByUk(customer.getId(), "123", YearMonth.now());
+        Assert.assertEquals(YearMonth.now(), bill.getYearMonth());
+
     }
 
 }
