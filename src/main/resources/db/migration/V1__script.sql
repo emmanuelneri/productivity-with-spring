@@ -26,7 +26,7 @@ CREATE TABLE bill_item (
  date_time TIMESTAMP WITHOUT TIME ZONE NOT NULL,
  description VARCHAR(200) NOT NULL,
  origin_number VARCHAR(20) NOT NULL,
- destination_number VARCHAR(20) NOT NULL,
+ destination_number VARCHAR(20),
  duration BIGINT,
  value NUMERIC(19, 2) NOT NULL,
  type VARCHAR(50) NOT NULL,

@@ -1,5 +1,6 @@
 package br.com.emmanuelneri.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +37,7 @@ public class BillItem {
     @SequenceGenerator(name = "bill_item_id_seq", sequenceName = "bill_item_id_seq", allocationSize = 1)
     private Long id;
 
+    @JsonIgnore
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "bill_id")

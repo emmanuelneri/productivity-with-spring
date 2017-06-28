@@ -1,5 +1,6 @@
 package br.com.emmanuelneri.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Getter @Setter
 @Builder
+@AllArgsConstructor
 public class Carrier {
 
     @Id
@@ -25,5 +27,8 @@ public class Carrier {
     @NotEmpty
     @Size(max = 200)
     private String name;
+
+    public Carrier() {
+    }
 
 }

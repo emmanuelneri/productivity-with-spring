@@ -1,5 +1,8 @@
 package br.com.emmanuelneri.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,8 +31,9 @@ import java.util.Objects;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name = "bill_uk", columnNames = {"customer_id", "identifier", "year_month"}))
-@Getter @Setter
+@Getter  @Setter
 @Builder
+@AllArgsConstructor
 public class Bill {
 
     @Id
@@ -38,12 +42,12 @@ public class Bill {
     private Long id;
 
     @NotNull
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @NotNull
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "carrier_id")
     private Carrier carrier;
 
@@ -55,6 +59,7 @@ public class Bill {
     @Column(name = "year_month")
     private YearMonth yearMonth;
 
+    @JsonIgnore
     @NotNull
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "bill_id")
@@ -62,6 +67,9 @@ public class Bill {
 
     @NotNull
     private BigDecimal total = BigDecimal.ZERO;
+
+    public Bill() {
+    }
 
     public void setBillInItems() {
         items.forEach(billItem -> billItem.setBill(this));

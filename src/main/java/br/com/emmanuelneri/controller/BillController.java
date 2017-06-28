@@ -29,7 +29,7 @@ public class BillController {
         return billService.findPaginable(page, size);
     }
 
-    @RequestMapping(value = "byUk/{customerId}/{identifier}/{yearMonth}", method = RequestMethod.GET)
+    @RequestMapping(value = "/byUk/{customerId}/{identifier}/{yearMonth}", method = RequestMethod.GET)
     public Bill findByUk(@PathVariable("customerId") Long customerId, @PathVariable("identifier") String identifier, @PathVariable("yearMonth") YearMonth yearMonth) {
         return billService.findByUk(customerId, identifier, yearMonth);
     }
