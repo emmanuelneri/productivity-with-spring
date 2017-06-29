@@ -1,5 +1,6 @@
 package br.com.emmanuelneri.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +44,8 @@ public class BillItem {
     @JoinColumn(name = "bill_id")
     private Bill bill;
 
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull
     @Column(name = "date_time")
     private LocalDateTime dataTime;
