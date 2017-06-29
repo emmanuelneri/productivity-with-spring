@@ -5,6 +5,8 @@ import br.com.emmanuelneri.repository.CarrierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CarrierService {
 
@@ -15,4 +17,7 @@ public class CarrierService {
         return carrierRepository.save(carrier);
     }
 
+    public List<Carrier> findAll() {
+        return carrierRepository.findAll();
+    }
 }
