@@ -5,16 +5,11 @@ import br.com.emmanuelneri.model.BillItem;
 import br.com.emmanuelneri.model.Carrier;
 import br.com.emmanuelneri.model.Customer;
 import br.com.emmanuelneri.model.ItemType;
+import br.com.emmanuelneri.test.AbstractIntegrationTest;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.domain.Page;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,19 +17,12 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
-import static org.springframework.test.annotation.DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD;
-
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 
-@RunWith(SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = NONE)
-@DirtiesContext(classMode = AFTER_EACH_TEST_METHOD)
-public class BillServiceTest {
+public class BillServiceTest extends AbstractIntegrationTest {
 
     @Autowired
     private CarrierService carrierService;
@@ -168,61 +156,6 @@ public class BillServiceTest {
                 allOf(
                         hasProperty("bill", is(bill)),
                         hasProperty("description", is("Roaming Call")))
-        ));
-    }
-
-    @Test
-    public void findPaged() {
-        final List<BillItem> itemsCurrentMonth = new ArrayList<>();
-        itemsCurrentMonth.add(BillItem.builder()
-                .dataTime(LocalDateTime.now())
-                .originNumber("4499898484")
-                .destinationNumber("4499898400")
-                .duration(693L)
-                .description("Local call")
-                .type(ItemType.CALL)
-                .value(BigDecimal.valueOf(169))
-                .build());
-
-        final Bill billCurrentMonth = Bill.builder()
-                .carrier(carrier)
-                .customer(customer)
-                .identifier("1423")
-                .yearMonth(YearMonth.now())
-                .items(itemsCurrentMonth)
-                .total(BigDecimal.valueOf(169))
-                .build();
-
-        billService.save(billCurrentMonth);
-
-        final List<BillItem> itemsLastMonth = new ArrayList<>();
-        itemsLastMonth.add(BillItem.builder()
-                .dataTime(LocalDateTime.now())
-                .originNumber("4499898484")
-                .destinationNumber("4499898488")
-                .duration(800L)
-                .description("Local call")
-                .type(ItemType.CALL)
-                .value(BigDecimal.valueOf(256))
-                .build());
-
-        final Bill billLastMonth = Bill.builder()
-                .carrier(carrier)
-                .customer(customer)
-                .identifier("87842")
-                .yearMonth(YearMonth.now().minusMonths(1))
-                .items(itemsLastMonth)
-                .total(BigDecimal.valueOf(256))
-                .build();
-
-        billService.save(billLastMonth);
-
-        final Page<Bill> billPaged = billService.findPaginable(1, 1);
-        Assert.assertEquals(2, billPaged.getTotalElements());
-        Assert.assertEquals(2, billPaged.getTotalPages());
-
-        Assert.assertThat(billPaged.getContent(), contains(
-                allOf(hasProperty("identifier", is("1423")))
         ));
     }
 
