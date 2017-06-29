@@ -5,7 +5,6 @@ import br.com.emmanuelneri.mapper.BillMapper;
 import br.com.emmanuelneri.model.Bill;
 import br.com.emmanuelneri.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.YearMonth;
@@ -36,6 +35,11 @@ public class BillController {
     @RequestMapping(method = RequestMethod.POST)
     public void save(@RequestBody BillDTO billDTO) {
         billService.save(BillMapper.fromDTO(billDTO));
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") Long id) {
+        billService.delete(id);
     }
 
 }

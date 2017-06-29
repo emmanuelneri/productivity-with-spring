@@ -10,11 +10,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.allOf;
@@ -208,6 +210,36 @@ public class BillServiceTest extends AbstractIntegrationTest {
         final Bill bill = billService.findByUk(customer.getId(), "123", YearMonth.now());
         Assert.assertEquals(YearMonth.now(), bill.getYearMonth());
 
+    }
+
+    @Test(expected = JpaObjectRetrievalFailureException.class)
+    public void delete() {
+
+        final Bill bill = Bill.builder()
+                .carrier(carrier)
+                .customer(customer)
+                .identifier("123")
+                .yearMonth(YearMonth.now())
+                .total(BigDecimal.valueOf(1.3))
+                .build();
+
+        bill.setItems(Collections.singletonList(
+                BillItem.builder()
+                .bill(bill)
+                .dataTime(LocalDateTime.now())
+                .originNumber("4499898484")
+                .destinationNumber("4499898400")
+                .duration(100L)
+                .description("Local call")
+                .type(ItemType.CALL)
+                .value(BigDecimal.valueOf(0.3))
+                .build()));
+
+        billService.save(bill);
+
+        final Long billId = bill.getId();
+        billService.delete(billId);
+        billService.findById(billId);
     }
 
 }
