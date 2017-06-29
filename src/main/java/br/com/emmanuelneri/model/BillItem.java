@@ -44,7 +44,6 @@ public class BillItem {
     @JoinColumn(name = "bill_id")
     private Bill bill;
 
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull
     @Column(name = "date_time")
