@@ -25,4 +25,8 @@ public class BillService {
     public Bill findByUk(Long customerId, String identifier, YearMonth yearMonth) {
         return billRepository.findByCustomerIdAndIdentifierAndYearMonth(customerId, identifier, yearMonth);
     }
+
+    public Bill findById(Long id) {
+        return billRepository.getOne(id);
+    }
 }

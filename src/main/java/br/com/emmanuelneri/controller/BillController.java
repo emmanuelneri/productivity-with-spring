@@ -5,6 +5,7 @@ import br.com.emmanuelneri.mapper.BillMapper;
 import br.com.emmanuelneri.model.Bill;
 import br.com.emmanuelneri.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.YearMonth;
@@ -23,8 +24,13 @@ public class BillController {
     }
 
     @RequestMapping(value = "/byUk/{customerId}/{identifier}/{yearMonth}", method = RequestMethod.GET)
-    public Bill findByUk(@PathVariable("customerId") Long customerId, @PathVariable("identifier") String identifier, @PathVariable("yearMonth") YearMonth yearMonth) {
-        return billService.findByUk(customerId, identifier, yearMonth);
+    public BillDTO findByUk(@PathVariable("customerId") Long customerId, @PathVariable("identifier") String identifier, @PathVariable("yearMonth") YearMonth yearMonth) {
+        return BillMapper.toDTO(billService.findByUk(customerId, identifier, yearMonth));
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public BillDTO findById(@PathVariable("id") Long id) {
+        return BillMapper.toDTO(billService.findById(id));
     }
 
     @RequestMapping(method = RequestMethod.POST)

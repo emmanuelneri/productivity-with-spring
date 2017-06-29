@@ -36,4 +36,22 @@ public class BillItemMapper {
 
         return billItem;
     }
+
+    public static List<BillItemDTO> toDTO(List<BillItem> items) {
+        return items.stream().map(BillItemMapper::toDTO).collect(Collectors.toList());
+    }
+
+    public static BillItemDTO toDTO(BillItem billItem) {
+        final BillItemDTO dto = new BillItemDTO();
+        dto.setId(billItem.getId());
+        dto.setDataTime(billItem.getDataTime());
+        dto.setDescription(billItem.getDescription());
+        dto.setOriginNumber(billItem.getOriginNumber());
+        dto.setDestinationNumber(billItem.getDestinationNumber());
+        dto.setDuration(billItem.getDuration());
+        dto.setValue(billItem.getValue());
+        dto.setType(billItem.getType());
+
+        return dto;
+    }
 }

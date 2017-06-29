@@ -17,4 +17,16 @@ public class BillMapper {
         return bill;
     }
 
+    public static BillDTO toDTO(Bill bill) {
+        final BillDTO dto = new BillDTO();
+        dto.setId(bill.getId());
+        dto.setIdentifier(bill.getIdentifier());
+        dto.setYearMonth(bill.getYearMonth());
+        dto.setCarrier(CarrierMapper.toDTO(bill.getCarrier()));
+        dto.setCustomer(CustomerMapper.toDTO(bill.getCustomer()));
+        dto.setItems(BillItemMapper.toDTO(bill.getItems()));
+        dto.setTotal(bill.getTotal());
+        return dto;
+    }
+
 }

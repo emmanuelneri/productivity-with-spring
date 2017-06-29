@@ -9,4 +9,7 @@ public class CustomerMapper {
         return new Customer(dto.getId(), dto.getName());
     }
 
+    public static CustomerDTO toDTO(Customer customer) {
+        return new CustomerDTO(customer.getId(), customer.getName());
+    }
 }

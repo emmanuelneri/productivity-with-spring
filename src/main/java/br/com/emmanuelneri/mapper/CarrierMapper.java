@@ -9,4 +9,7 @@ public class CarrierMapper {
         return new Carrier(dto.getId(), dto.getName());
     }
 
+    public static CarrierDTO toDTO(Carrier carrier) {
+        return new CarrierDTO(carrier.getId(), carrier.getName());
+    }
 }
