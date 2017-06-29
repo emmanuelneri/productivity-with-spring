@@ -1,9 +1,10 @@
 package br.com.emmanuelneri.controller;
 
+import br.com.emmanuelneri.dto.BillDTO;
+import br.com.emmanuelneri.mapper.BillMapper;
 import br.com.emmanuelneri.model.Bill;
 import br.com.emmanuelneri.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.YearMonth;
@@ -27,8 +28,8 @@ public class BillController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void save(@RequestBody Bill bill) {
-        billService.save(bill);
+    public void save(@RequestBody BillDTO billDTO) {
+        billService.save(BillMapper.fromDTO(billDTO));
     }
 
 }

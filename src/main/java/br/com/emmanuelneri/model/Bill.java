@@ -1,8 +1,5 @@
 package br.com.emmanuelneri.model;
 
-import br.com.emmanuelneri.exception.BusinessException;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -59,7 +56,6 @@ public class Bill {
     @Column(name = "year_month")
     private YearMonth yearMonth;
 
-    @JsonIgnore
     @NotNull
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "bill_id")
@@ -69,13 +65,6 @@ public class Bill {
     private BigDecimal total = BigDecimal.ZERO;
 
     public Bill() {
-    }
-
-    public void prepareBillInItems() {
-        if(items == null) {
-            throw new BusinessException("Items are required in the bill");
-        }
-        items.forEach(billItem -> billItem.setBill(this));
     }
 
     @Override
