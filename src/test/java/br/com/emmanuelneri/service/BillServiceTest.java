@@ -54,8 +54,17 @@ public class BillServiceTest extends AbstractIntegrationTest {
     @Test
     public void saveABillWithTwoCalls() {
         final List<BillItem> items = new ArrayList<>();
+        final Bill bill = Bill.builder()
+                .carrier(carrier)
+                .customer(customer)
+                .identifier("123")
+                .yearMonth(YearMonth.now())
+                .items(items)
+                .total(BigDecimal.valueOf(1.3))
+                .build();
 
         items.add(BillItem.builder()
+                .bill(bill)
                 .dataTime(LocalDateTime.now())
                 .originNumber("4499898484")
                 .destinationNumber("4499898400")
@@ -66,6 +75,7 @@ public class BillServiceTest extends AbstractIntegrationTest {
                 .build());
 
         items.add(BillItem.builder()
+                .bill(bill)
                 .dataTime(LocalDateTime.now())
                 .originNumber("4499898484")
                 .destinationNumber("4499889400")
@@ -74,15 +84,6 @@ public class BillServiceTest extends AbstractIntegrationTest {
                 .type(ItemType.CALL)
                 .value(BigDecimal.valueOf(1))
                 .build());
-
-        final Bill bill = Bill.builder()
-                .carrier(carrier)
-                .customer(customer)
-                .identifier("123")
-                .yearMonth(YearMonth.now())
-                .items(items)
-                .total(BigDecimal.valueOf(1.3))
-                .build();
 
         final Bill savedBill = billService.save(bill);
         Assert.assertNotNull(savedBill.getId());
@@ -104,7 +105,17 @@ public class BillServiceTest extends AbstractIntegrationTest {
     public void updatingABillWithOneMoreCall() {
         final List<BillItem> items = new ArrayList<>();
 
+        final Bill bill = Bill.builder()
+                .carrier(carrier)
+                .customer(customer)
+                .identifier("123")
+                .yearMonth(YearMonth.now())
+                .items(items)
+                .total(BigDecimal.valueOf(1.3))
+                .build();
+
         items.add(BillItem.builder()
+                .bill(bill)
                 .dataTime(LocalDateTime.now())
                 .originNumber("4499898639")
                 .destinationNumber("4499898400")
@@ -115,6 +126,7 @@ public class BillServiceTest extends AbstractIntegrationTest {
                 .build());
 
         items.add(BillItem.builder()
+                .bill(bill)
                 .dataTime(LocalDateTime.now())
                 .originNumber("4499898484")
                 .destinationNumber("4499999900")
@@ -124,19 +136,11 @@ public class BillServiceTest extends AbstractIntegrationTest {
                 .value(BigDecimal.valueOf(1.45))
                 .build());
 
-        final Bill bill = Bill.builder()
-                .carrier(carrier)
-                .customer(customer)
-                .identifier("123")
-                .yearMonth(YearMonth.now())
-                .items(items)
-                .total(BigDecimal.valueOf(1.3))
-                .build();
-
         final Bill savedBill = billService.save(bill);
         Assert.assertEquals(2, savedBill.getItems().size());
 
         savedBill.getItems().add(BillItem.builder()
+                .bill(savedBill)
                 .dataTime(LocalDateTime.now())
                 .originNumber("4499898484")
                 .destinationNumber("4499999900")
@@ -164,16 +168,6 @@ public class BillServiceTest extends AbstractIntegrationTest {
     @Test
     public void findByUk() {
         final List<BillItem> itemsCurrentMonth = new ArrayList<>();
-        itemsCurrentMonth.add(BillItem.builder()
-                .dataTime(LocalDateTime.now())
-                .originNumber("4499898484")
-                .destinationNumber("4499898400")
-                .duration(100L)
-                .description("Local call")
-                .type(ItemType.CALL)
-                .value(BigDecimal.valueOf(1))
-                .build());
-
         final Bill billCurrentMonth = Bill.builder()
                 .carrier(carrier)
                 .customer(customer)
@@ -183,18 +177,21 @@ public class BillServiceTest extends AbstractIntegrationTest {
                 .total(BigDecimal.valueOf(1))
                 .build();
 
-        billService.save(billCurrentMonth);
-
-        final List<BillItem> itemsLastMonth = new ArrayList<>();
-        itemsLastMonth.add(BillItem.builder()
+        itemsCurrentMonth.add(BillItem.builder()
+                .bill(billCurrentMonth)
                 .dataTime(LocalDateTime.now())
                 .originNumber("4499898484")
                 .destinationNumber("4499898400")
-                .duration(800L)
+                .duration(100L)
                 .description("Local call")
                 .type(ItemType.CALL)
-                .value(BigDecimal.valueOf(256))
+                .value(BigDecimal.valueOf(1))
                 .build());
+
+
+        billService.save(billCurrentMonth);
+
+        final List<BillItem> itemsLastMonth = new ArrayList<>();
 
         final Bill billLastMonth = Bill.builder()
                 .carrier(carrier)
@@ -204,6 +201,17 @@ public class BillServiceTest extends AbstractIntegrationTest {
                 .items(itemsLastMonth)
                 .total(BigDecimal.valueOf(256))
                 .build();
+
+        itemsLastMonth.add(BillItem.builder()
+                .bill(billCurrentMonth)
+                .dataTime(LocalDateTime.now())
+                .originNumber("4499898484")
+                .destinationNumber("4499898400")
+                .duration(800L)
+                .description("Local call")
+                .type(ItemType.CALL)
+                .value(BigDecimal.valueOf(256))
+                .build());
 
         billService.save(billLastMonth);
 
