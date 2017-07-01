@@ -35,12 +35,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erros);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity handleError(Exception ex) {
-        log.error("Internal error server", ex);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("O sistema se encontra indisponível");
-    }
-
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Set<ExceptionTO>> handleError(DataIntegrityViolationException divex) {
         return ExceptionUtil.isUniqueConstraintError(divex)
@@ -60,5 +54,11 @@ public class GlobalExceptionHandler {
             }
         }
         throw tse;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity handleError(Exception ex) {
+        log.error("Internal error server", ex);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("O sistema se encontra indisponível");
     }
 }
