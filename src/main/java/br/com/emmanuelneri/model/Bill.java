@@ -38,25 +38,26 @@ public class Bill {
     @SequenceGenerator(name = "bill_id_seq", sequenceName = "bill_id_seq", allocationSize = 1)
     private Long id;
 
-    @NotNull
+    @NotNull(message = "Customer is required")
     @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @NotNull
+    @NotNull(message = "Carrier is required")
     @ManyToOne(optional = false)
     @JoinColumn(name = "carrier_id")
     private Carrier carrier;
 
-    @NotEmpty
-    @Size(max = 50)
+    @NotEmpty(message = "Bill identifier is required")
+    @Size(max = 50, message = "The maximum length of identifier is {max} caracters ")
     private String identifier;
 
-    @NotNull
+    @NotNull(message = "Year Month is required")
     @Column(name = "year_month")
     private YearMonth yearMonth;
 
-    @NotNull
+    @NotNull(message = "Bill items is required")
+    @Size(min = 1, message = "The Bill needs at least one item")
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "bill_id")
     private List<BillItem> items = new ArrayList<>();
