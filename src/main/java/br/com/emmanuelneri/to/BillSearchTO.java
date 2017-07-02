@@ -5,6 +5,8 @@ import com.google.common.base.Strings;
 import com.querydsl.core.BooleanBuilder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.YearMonth;
 
@@ -45,6 +47,10 @@ public class BillSearchTO {
         }
 
         return predicate;
+    }
+
+    public Pageable getPageable() {
+        return new PageRequest(page, size);
     }
 
 }

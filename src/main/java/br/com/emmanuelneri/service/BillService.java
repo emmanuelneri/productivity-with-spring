@@ -1,5 +1,6 @@
 package br.com.emmanuelneri.service;
 
+import br.com.emmanuelneri.dto.BillDTO;
 import br.com.emmanuelneri.model.Bill;
 import br.com.emmanuelneri.repository.BillItemRepository;
 import br.com.emmanuelneri.repository.BillRepository;
@@ -45,10 +46,7 @@ public class BillService {
         billRepository.delete(id);
     }
 
-    public Page<Bill> search(BillSearchTO searchTO) {
-        return billRepository.findAll(searchTO.toPredicate(),
-                new PageRequest(searchTO.getPage(), searchTO.getSize(),
-                        new Sort(Sort.Direction.DESC, "yearMonth")
-                                .and(new Sort(Sort.Direction.DESC, "id"))));
+    public Page<BillDTO> search(BillSearchTO searchTO) {
+        return billRepository.findAll(searchTO);
     }
 }
