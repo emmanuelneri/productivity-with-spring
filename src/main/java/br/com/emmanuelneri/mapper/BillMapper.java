@@ -3,6 +3,9 @@ package br.com.emmanuelneri.mapper;
 import br.com.emmanuelneri.dto.BillDTO;
 import br.com.emmanuelneri.model.Bill;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class BillMapper {
 
     public static Bill fromDTO(BillDTO dto) {
@@ -29,4 +32,7 @@ public class BillMapper {
         return dto;
     }
 
+    public static List<BillDTO> toDTO(List<Bill> bills) {
+        return bills.stream().map(BillMapper::toDTO).collect(Collectors.toList());
+    }
 }

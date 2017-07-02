@@ -4,7 +4,10 @@ import br.com.emmanuelneri.dto.BillDTO;
 import br.com.emmanuelneri.mapper.BillMapper;
 import br.com.emmanuelneri.model.Bill;
 import br.com.emmanuelneri.service.BillService;
+import br.com.emmanuelneri.to.BillSearchTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.YearMonth;
@@ -18,8 +21,15 @@ public class BillController {
     private BillService billService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Bill> findAll() {
-        return billService.findAll();
+    public List<BillDTO> findAll() {
+        return BillMapper.toDTO(billService.findAll());
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public Page<BillDTO> search(@RequestBody BillSearchTO searchTO) {
+        final Page<Bill> billPaged = billService.search(searchTO);
+        final List<BillDTO> billsDTO = BillMapper.toDTO(billPaged.getContent());
+        return new PageImpl<>(billsDTO);
     }
 
     @RequestMapping(value = "/byUk/{customerId}/{identifier}/{yearMonth}", method = RequestMethod.GET)

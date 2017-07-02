@@ -3,7 +3,11 @@ package br.com.emmanuelneri.service;
 import br.com.emmanuelneri.model.Bill;
 import br.com.emmanuelneri.repository.BillItemRepository;
 import br.com.emmanuelneri.repository.BillRepository;
+import br.com.emmanuelneri.to.BillSearchTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,5 +43,12 @@ public class BillService {
     public void delete(Long id) {
         billItemRepository.deleteByBillItem(id);
         billRepository.delete(id);
+    }
+
+    public Page<Bill> search(BillSearchTO searchTO) {
+        return billRepository.findAll(searchTO.toPredicate(),
+                new PageRequest(searchTO.getPage(), searchTO.getSize(),
+                        new Sort(Sort.Direction.DESC, "yearMonth")
+                                .and(new Sort(Sort.Direction.DESC, "id"))));
     }
 }
