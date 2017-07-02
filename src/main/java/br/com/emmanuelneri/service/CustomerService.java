@@ -2,6 +2,7 @@ package br.com.emmanuelneri.service;
 
 import br.com.emmanuelneri.model.Customer;
 import br.com.emmanuelneri.repository.CustomerRepository;
+import br.com.emmanuelneri.to.CustomerSearchTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,4 +29,10 @@ public class CustomerService {
         return customerRepository.findAll(new PageRequest(page, size, new Sort(Sort.Direction.DESC, "name")));
     }
 
+    public Page<Customer> search(CustomerSearchTO searchTO) {
+        return customerRepository.findAll(searchTO.toPredicate(),
+                new PageRequest(searchTO.getPage(), searchTO.getSize(),
+                        new Sort(Sort.Direction.DESC, "name")
+                                .and(new Sort(Sort.Direction.DESC, "id"))));
+    }
 }
