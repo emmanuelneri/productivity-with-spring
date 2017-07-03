@@ -1,0 +1,31 @@
+{
+  "customer":{
+    "id":1,
+    "name":"Customer 1"
+  },
+  "carrier":{
+    "id":1,
+    "name":"TIM"
+  },
+  "identifier":"29302",
+  "yearMonth":"2017-07",
+  "items":[
+    {
+    "dataTime":"2017-07-01 15:30:00",
+    "description":"Ligação fora do plano",
+    "originNumber":"4499898484",
+    "destinationNumber":"1199848248",
+    "duration":"10",
+    "value":"50",
+    "type":"SERVICE"
+    },
+    {
+      "dataTime":"2017-07-15 00:00:00",
+      "description":"Pacote",
+      "originNumber":"4499898484",
+      "value":"50",
+      "type":"SERVICE"
+    }
+  ],
+  "total":70.00
+}
