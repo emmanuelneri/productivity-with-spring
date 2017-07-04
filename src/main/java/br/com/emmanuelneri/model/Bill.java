@@ -3,6 +3,7 @@ package br.com.emmanuelneri.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -31,6 +32,7 @@ import java.util.Objects;
 @Getter  @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Bill {
 
     @Id
@@ -65,8 +67,6 @@ public class Bill {
     @NotNull
     private BigDecimal total = BigDecimal.ZERO;
 
-    public Bill() {
-    }
 
     @Override
     public boolean equals(Object o) {

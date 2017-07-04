@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -30,6 +31,7 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class BillItem {
 
     @Id
@@ -68,8 +70,5 @@ public class BillItem {
     @NotNull
     @Enumerated(EnumType.STRING)
     private ItemType type;
-
-    public BillItem() {
-    }
 
 }

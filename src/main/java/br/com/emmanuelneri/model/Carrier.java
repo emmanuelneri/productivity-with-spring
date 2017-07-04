@@ -3,6 +3,7 @@ package br.com.emmanuelneri.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -17,6 +18,7 @@ import javax.validation.constraints.Size;
 @Getter @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Carrier {
 
     @Id
@@ -27,8 +29,5 @@ public class Carrier {
     @NotEmpty
     @Size(max = 200)
     private String name;
-
-    public Carrier() {
-    }
 
 }
