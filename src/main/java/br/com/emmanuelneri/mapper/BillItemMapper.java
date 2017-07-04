@@ -1,11 +1,9 @@
 package br.com.emmanuelneri.mapper;
 
 import br.com.emmanuelneri.dto.BillItemDTO;
-import br.com.emmanuelneri.dto.CarrierDTO;
 import br.com.emmanuelneri.exception.BusinessException;
 import br.com.emmanuelneri.model.Bill;
 import br.com.emmanuelneri.model.BillItem;
-import br.com.emmanuelneri.model.Carrier;
 
 import java.util.List;
 import java.util.stream.Collectors;
