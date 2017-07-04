@@ -6,7 +6,10 @@ import br.com.emmanuelneri.model.Bill;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BillMapper {
+public final class BillMapper {
+
+    private BillMapper() {
+    }
 
     public static Bill fromDTO(BillDTO dto) {
         final Bill bill = new Bill();

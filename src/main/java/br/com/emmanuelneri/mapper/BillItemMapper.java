@@ -8,7 +8,10 @@ import br.com.emmanuelneri.model.BillItem;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BillItemMapper {
+public final class BillItemMapper {
+
+    private BillItemMapper() {
+    }
 
     public static List<BillItem> fromDTO(List<BillItemDTO> items, Bill bill) {
         if(items == null) {
