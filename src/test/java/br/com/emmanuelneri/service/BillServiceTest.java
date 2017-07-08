@@ -1,15 +1,18 @@
 package br.com.emmanuelneri.service;
 
+import br.com.emmanuelneri.dto.BillDTO;
 import br.com.emmanuelneri.model.Bill;
 import br.com.emmanuelneri.model.BillItem;
 import br.com.emmanuelneri.model.Carrier;
 import br.com.emmanuelneri.model.Customer;
 import br.com.emmanuelneri.model.ItemType;
 import br.com.emmanuelneri.test.AbstractIntegrationTest;
+import br.com.emmanuelneri.to.BillSearchTO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 
 import java.math.BigDecimal;
@@ -246,6 +249,86 @@ public class BillServiceTest extends AbstractIntegrationTest {
         final Long billId = bill.getId();
         billService.delete(billId);
         billService.findById(billId);
+    }
+
+    @Test
+    public void findPaged() {
+        final List<BillItem> itemsBill123 = new ArrayList<>();
+        final Bill bill123 = Bill.builder()
+                .carrier(carrier)
+                .customer(customer)
+                .identifier("123")
+                .yearMonth(YearMonth.now())
+                .items(itemsBill123)
+                .total(BigDecimal.valueOf(1.3))
+                .build();
+
+        itemsBill123.add(BillItem.builder()
+                .bill(bill123)
+                .dataTime(LocalDateTime.now())
+                .originNumber("4499898484")
+                .destinationNumber("4499898400")
+                .duration(100L)
+                .description("Local call")
+                .type(ItemType.CALL)
+                .value(BigDecimal.valueOf(0.3))
+                .build());
+
+        itemsBill123.add(BillItem.builder()
+                .bill(bill123)
+                .dataTime(LocalDateTime.now())
+                .originNumber("4499898484")
+                .destinationNumber("4499889400")
+                .duration(250L)
+                .description("Another carrier call")
+                .type(ItemType.CALL)
+                .value(BigDecimal.valueOf(1))
+                .build());
+
+        billService.save(bill123);
+
+        final List<BillItem> items456 = new ArrayList<>();
+        final Bill bill456 = Bill.builder()
+                .carrier(carrier)
+                .customer(customer)
+                .identifier("456")
+                .yearMonth(YearMonth.now().plusMonths(1))
+                .items(items456)
+                .total(BigDecimal.valueOf(1.3))
+                .build();
+
+        items456.add(BillItem.builder()
+                .bill(bill456)
+                .dataTime(LocalDateTime.now())
+                .originNumber("4499898484")
+                .destinationNumber("4499088299")
+                .duration(400L)
+                .description("Local call")
+                .type(ItemType.CALL)
+                .value(BigDecimal.valueOf(10))
+                .build());
+
+        billService.save(bill456);
+
+        final BillSearchTO searchByIdentifier = new BillSearchTO();
+        searchByIdentifier.setIdentifier("456");
+
+        final Page<BillDTO> billByIdentifierPaged = billService.search(searchByIdentifier);
+
+        Assert.assertEquals(1, billByIdentifierPaged.getContent().size());
+        Assert.assertThat(billByIdentifierPaged.getContent(), contains(
+                allOf(hasProperty("identifier", is("456")))));
+
+
+        final BillSearchTO searchByPeriod = new BillSearchTO();
+        searchByPeriod.setInitYearMonth(YearMonth.now());
+        searchByPeriod.setEndYearMonth(YearMonth.now());
+
+        final Page<BillDTO> billByPeriodPaged = billService.search(searchByPeriod);
+
+        Assert.assertEquals(1, billByPeriodPaged.getContent().size());
+        Assert.assertThat(billByPeriodPaged.getContent(), contains(
+                allOf(hasProperty("identifier", is("123")))));
     }
 
 }
