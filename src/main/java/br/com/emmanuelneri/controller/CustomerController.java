@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,8 +31,13 @@ public class CustomerController {
         return customerService.findPaginable(page, size);
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public Page<Customer> search(@RequestBody CustomerSearchTO searchTO) {
-        return customerService.search(searchTO);
+    @RequestMapping(value = "/search/pagenable", method = RequestMethod.POST)
+    public Page<Customer> searchPagenable(@RequestBody CustomerSearchTO searchTO) {
+        return customerService.searchPagenable(searchTO);
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public List<Customer> search(@RequestParam(value = "id", required = false) Long id, @RequestParam(value = "name", required = false) String name){
+        return customerService.search(new CustomerSearchTO(id, name));
     }
 }
