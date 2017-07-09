@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Set<ExceptionTO>> handleError(DataIntegrityViolationException divex) {
         return ExceptionUtil.isUniqueConstraintError(divex)
                 ? ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Collections.singleton(new ExceptionTO("Esse registro já existe na base de dados.")))
+                    .body(Collections.singleton(new ExceptionTO("This registry already exists in the database.")))
                 : ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Collections.singleton(new ExceptionTO(divex.getMessage())));
     }
@@ -59,6 +59,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity handleError(Exception ex) {
         log.error("Internal error server", ex);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("O sistema se encontra indisponível");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("The system is unavailable.");
     }
 }

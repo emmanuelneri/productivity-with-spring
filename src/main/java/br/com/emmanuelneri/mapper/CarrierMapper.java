@@ -9,6 +9,10 @@ public final class CarrierMapper {
     }
 
     public static Carrier fromDTO(CarrierDTO dto) {
+        if(dto == null) {
+            return null;
+        }
+
         return new Carrier(dto.getId(), dto.getName());
     }
 

@@ -9,6 +9,10 @@ public final class CustomerMapper {
     }
 
     public static Customer fromDTO(CustomerDTO dto) {
+        if(dto == null) {
+            return null;
+        }
+
         return new Customer(dto.getId(), dto.getName());
     }
 
