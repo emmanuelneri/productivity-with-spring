@@ -21,4 +21,8 @@ public class BillFileService {
         return billFileRepository.findAll();
     }
 
+    public void delete(String id) {
+        billFileRepository.delete(id);
+    }
+
 }
