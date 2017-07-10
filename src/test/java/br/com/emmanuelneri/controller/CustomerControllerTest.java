@@ -34,6 +34,19 @@ public class CustomerControllerTest extends AbstractWebTest {
     private ObjectMapper objectMapper;
 
     @Test
+    public void findAll() throws Exception {
+        final List<Customer> customers = Arrays.asList(new Customer());
+
+        given(customerService.findAll())
+                .willReturn(customers);
+
+        mockMvc.perform(get("/customers")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.writeValueAsString(customers)));
+    }
+
+    @Test
     public void searchWithoutParams() throws Exception {
         final List<Customer> customers = Arrays.asList(new Customer());
 
