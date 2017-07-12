@@ -24,6 +24,10 @@ public final class BillMapper {
     }
 
     public static BillDTO toDTO(Bill bill) {
+        if(bill == null) {
+            return null;
+        }
+
         final BillDTO dto = new BillDTO();
         dto.setId(bill.getId());
         dto.setIdentifier(bill.getIdentifier());
