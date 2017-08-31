@@ -13,7 +13,7 @@ O projeto é uma aplicação back-end com objetivo de demonstrar a produtividade
 - [Spring Data](http://projects.spring.io/spring-data/) é um framework que abstrai o acesso ao modelo de dados, independente a tecnologia de base de dados.
 
  
-# Setup da aplicação
+# Setup da aplicação (local)
 
 ## Pré-requisito
 
@@ -63,6 +63,57 @@ Pronto. A aplicação está disponível em http://localhost:8080
 Tomcat started on port(s): 8080 (http)
 Started AppConfig in xxxx seconds (JVM running for xxxx)
 ```
+
+# Setup da aplicação com docker
+
+## Pré-requisito
+
+Antes de rodar a aplicação é preciso garantir que as seguintes dependências estejam corretamente instaladas:
+
+```
+Java 8
+Docker 17.06.0 
+Maven 3.3.3 
+```
+
+## Preparando ambiente
+
+Criar e executar container do Posgres
+```
+ docker run -d \
+    --name productivity-postgres \
+    -e POSTGRES_DB=productivity-with-spring \
+    -e POSTGRES_USER=postgres \
+    -e POSTGRES_PASSWORD=postgres \
+   postgres:9.6
+```
+
+Criar e executar container do MongoDB
+```
+docker run -d \
+    --name productivity-mongodb \
+   mongo:3.5
+```
+
+## Instalação da aplicação
+
+Baixar as dependência e criar imagem da aplicação
+
+```
+mvn clean package -Dmaven.test.skip=true dockerfile:build
+```
+
+Executar container da aplicação
+
+```
+docker run -it \
+    --link productivity-postgres  \
+    --link productivity-mongodb  \
+    -p 8080:8080 \
+    emmanuelneri/productivity-with-spring-app 
+```
+
+Pronto. A aplicação está disponível em http://localhost:8080
 
 # APIs
 
