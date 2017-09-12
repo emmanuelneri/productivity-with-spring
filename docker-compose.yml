@@ -1,0 +1,23 @@
+version: '3'
+services:
+ productivity-app:
+    image: emmanuelneri/productivity-with-spring-app
+    links:
+      - productivity-postgres
+      - productivity-mongodb
+    ports:
+          - "8080:8080"
+
+ productivity-postgres:
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=productivity-with-spring
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+ productivity-mongodb:
+     image: mongo:3.5
+     ports:
+       - "27017:27017"
