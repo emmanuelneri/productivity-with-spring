@@ -60,8 +60,7 @@ public class Bill {
 
     @NotNull(message = "Bill items is required")
     @Size(min = 1, message = "The Bill needs at least one item")
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "bill_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "bill")
     private List<BillItem> items = new ArrayList<>();
 
     @NotNull
