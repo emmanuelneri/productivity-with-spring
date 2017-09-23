@@ -11,6 +11,7 @@
     <properties>
         <java.version>1.8</java.version>
         <spring-boot.version>1.5.3.RELEASE</spring-boot.version>
+        <hibernate.version>5.0.12.Final</hibernate.version>
         <postgres.version>9.4.1212</postgres.version>
         <flyway.version>4.1.2</flyway.version>
         <queryDsl.version>4.1.4</queryDsl.version>
@@ -54,14 +55,19 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring-boot.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring-boot.version}</version>
-            <scope>test</scope>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-ehcache</artifactId>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
