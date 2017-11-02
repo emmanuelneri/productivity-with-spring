@@ -1,6 +1,7 @@
 package br.com.emmanuelneri.controller;
 
 import br.com.emmanuelneri.dto.BillDTO;
+import br.com.emmanuelneri.dto.BillResumeDTO;
 import br.com.emmanuelneri.mapper.BillMapper;
 import br.com.emmanuelneri.service.BillService;
 import br.com.emmanuelneri.to.BillSearchTO;
@@ -50,6 +51,11 @@ public class BillController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") Long id) {
         billService.delete(id);
+    }
+
+    @RequestMapping(value = "/resume/{id}", method = RequestMethod.GET)
+    public BillResumeDTO resume(@PathVariable("id") Long id) {
+        return billService.findResume(id);
     }
 
 }

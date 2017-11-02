@@ -19,6 +19,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -32,6 +34,10 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@NamedQueries(value = {
+        @NamedQuery(name="BillItem.summarizeByBillId", query = "select new br.com.emmanuelneri.dto.BillSummaryDTO(count(bi.id), sum(bi.duration), sum(bi.value)) from BillItem bi where bi.bill.id = :billId"),
+        @NamedQuery(name="BillItem.numberGreaterUse", query = "select new br.com.emmanuelneri.dto.NumberUseDTO(bi.originNumber, sum(bi.duration)) from BillItem bi where bi.bill.id = :billId group by bi.originNumber order by sum(bi.duration) desc"),
+})
 public class BillItem {
 
     @Id
