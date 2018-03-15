@@ -40,4 +40,8 @@ public class CustomerService {
     public List<Customer> search(CustomerSearchTO searchTO) {
         return Lists.newArrayList(customerRepository.findAll(searchTO.toPredicate()));
     }
+
+    public List<Customer> findByName(String name) {
+        return customerRepository.findAllByName(name);
+    }
 }

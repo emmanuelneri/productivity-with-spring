@@ -18,8 +18,11 @@ public class CarrierService {
         return carrierRepository.save(carrier);
     }
 
-    @Cacheable("carriers")
     public List<Carrier> findAll() {
         return carrierRepository.findAll();
+    }
+
+    public List<Carrier> findByName(String name) {
+        return carrierRepository.findAllByName(name);
     }
 }
