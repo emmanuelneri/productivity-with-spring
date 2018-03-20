@@ -30,7 +30,7 @@ public class HikariConfiguration {
        hikariConfig.setDriverClassName(driver);
        hikariConfig.setUsername(username);
        hikariConfig.setPassword(password);
-       hikariConfig.setMaximumPoolSize(20);
+       hikariConfig.setMaximumPoolSize(40);
 
         return new HikariDataSource(hikariConfig);
     }

@@ -11,7 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {AppConfig.class, DefaultDataSourceConfiguration.class})
 @Slf4j
